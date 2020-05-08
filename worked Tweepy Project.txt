@@ -1,0 +1,94 @@
+import tweepy
+import csv
+
+consumer_key = 'ecvmkWkjHgTQ2QV0nr8juSrYT'
+consumer_secret = 'J35C5SFCD07cz97tXI5IKK3Xpep5tvk4ae5XvkiRbjbzNOTxWA'
+
+access_token = '1119085617248231424-EJbFv2p0KPaMgpaTWbcj2SCnt5BxbK'
+access_token_secret = 'gsYwOF8R0jvMCUvxDZtJ60w9W8Sa3lOeVouRgR5p2M4ff'
+
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
+
+api = tweepy.API(auth)
+fetch_tweets = tweepy.Cursor(api.search, q = "Toyota").items(2)
+"""until="2019-04-27"""
+#result_type="mixed"
+
+with open('Toyota.csv', mode='w', newline='', encoding='UTF-8') as my_file:
+    my_writer = csv.writer(my_file, delimiter=',')
+    my_writer.writerow(['Id', 'User_Name', 'Date', 'Location', 'Retweet', 'Likes', 'Text'])
+    # 'User_ID', 'Date', 'Tweet_Id'
+    for i in fetch_tweets:
+        current_ID = i.id_str
+        current_Txt = str(i.text)
+        current_Date = str(i.created_at)
+        current_ScreenName = str(i.user.screen_name)
+        current_Location = str(i.user.location)
+        current_Retweet = str(i.retweet_count)
+        current_Likes = str(i.favorite_count)
+        #current_CountryCode = str(i.user.country_code)
+
+        """current_ID = str(i.id)
+        current_UserID = str(i.user.id)"""
+
+
+        my_writer.writerow([current_ID, current_ScreenName, current_Date, current_Location, current_Retweet, current_Likes, current_Txt])
+        # current_ID, current_UserID
+
+with open('Toyota.csv', mode='r', encoding='UTF-8') as my_file:
+    csv_reader = csv.reader(my_file, delimiter=',')
+    line_count = 0
+    for row in csv_reader:
+        print("------------")
+        print(row[0])
+        print(row[1])
+        print(row[2])
+        print(row[3])
+        print(row[4])
+        print(row[5])
+        print(row[6])
+        print("------------")
+
+
+# second car brand
+"""fetch_tweets2 = tweepy.Cursor(api.search, q="@BMW", lang="en").items(50)
+#until="2019-04-27
+#result_type="mixed"
+
+with open('Car.csv', mode='w', newline='', encoding='UTF-8') as my_file:
+    my_writer = csv.writer(my_file, delimiter=',')
+    my_writer.writerow(['Id', 'User_Name', 'Date', 'Text'])
+    # 'User_ID', 'Date', 'Tweet_Id'
+    for i in fetch_tweets2:
+        current_ID = str(i.id)
+        current_Txt = str(i.text)
+        current_Date = str(i.created_at)
+        current_ScreenName = str(i.user.screen_name)
+
+        #current_ID = str(i.id)
+        #current_UserID = str(i.user.id)
+
+
+        my_writer.writerow([current_ID, current_ScreenName, current_Date, current_Txt])
+        # current_ID, current_UserID
+
+with open('Car.csv', mode='r', encoding='UTF-8') as my_file:
+    csv_reader = csv.reader(my_file, delimiter=',')
+    line_count = 0
+    for row in csv_reader:
+        print("------------")
+        print(row[0])
+        print(row[1])
+        print(row[2])
+        print(row[3])
+        print("------------")"""
+
+"""with open('myData.csv', mode='a', newline='', encoding='UTF-8') as my_file:
+    my_writer = csv.writer(my_file, delimiter=',')
+    my_writer.writerow(['Tweet_Id', 'Text'])
+    for i in fetch_tweets:
+        current_ID = str(i.id)
+        current_Txt = str(i.text)
+
+        my_writer.writerow([current_ID, current_Txt])"""
